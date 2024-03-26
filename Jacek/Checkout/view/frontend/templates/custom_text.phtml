@@ -1,0 +1,71 @@
+<?php
+
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+?>
+
+
+<button id="click-me" class="button primary action">
+    <span><?= $escaper->escapeHtml(__('Take the quiz and get a discount!')) ?></span>
+</button>
+
+<div id="popup-modal">
+    <div class="modal-content-wrapper">
+        <form id="quiz">
+            <div class="questions-wrapper">
+                <p class="question">
+                    <label
+                        for="question-1"><?= $escaper->escapeHtml(__('Do you think climate change is a serious problem for the world?')) ?>
+                    </label>
+                    <input class="required" type="text" id="question-1" name="question-1" required>
+                </p>
+                <p class="question">
+                    <label
+                        for="question-2"><?= $escaper->escapeHtml(__('Do you think that action to reduce greenhouse gas emissions is necessary?')) ?>
+                    </label>
+                    <input class="required" type="text" id="question-2" name="question-2" required>
+                </p>
+                <p class="question">
+                    <label
+                        for="question-3"><?= $escaper->escapeHtml(__('Do you think we can take action at an individual level to combat climate change?')) ?>
+                    </label>
+                    <input class="required" type="text" id="question-3" name="question-3" required>
+                </p>
+            </div>
+            <button type="submit"><?= $escaper->escapeHtml(__('Send')) ?></button>
+        </form>
+    </div>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function (
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '<?= $escaper->escapeHtml(__('Answer to all questions and receive promo code!')) ?>',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'close-modal',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+            $("#click-me").on('click', function () {
+                $("#popup-modal").modal("openModal");
+            });
+        }
+    );
+</script>
